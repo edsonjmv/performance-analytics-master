@@ -1,5 +1,6 @@
 window.onload = function () {
   measureCssUnblockTime();
+  measureWebfontPerfAndFailures();
 };
 
 /**
@@ -35,4 +36,41 @@ function measureDuration(mark, opt_reference) {
 
   // Returns the measure duration.
   return measure.duration;
+}
+
+/**
+ * Creates a promise that is resolved once the web fonts are fully load or
+ * is reject if the fonts fail to load. The resolved callback calculates the
+ * time duration between the responseEnd timing event and when the web fonts
+ * are downloaded and active. If an error occurs loading the font, this fact
+ * is logged to the console.
+ */
+function measureWebfontPerfAndFailures() {
+  new Promise(function (resolve, reject) {
+    // The classes `wf-active` or `wf-inactive` are added to the <html>
+    // element once the fonts are loaded (or error).
+    var loaded = /wf-(in)?active/.exec(document.documentElement.className);
+    var success = loaded && !loaded[1]; // No "in" in the capture group.
+    // If the fonts are already done loading, resolve immediately.
+    // Otherwise resolve/reject in the active/inactive callbacks, respectively.
+    if (loaded) {
+      success ? resolve() : reject();
+    } else {
+      var originalAciveCallback = WebFontConfig.active;
+      WebFontConfig.inactive = reject;
+      WebFontConfig.active = function () {
+        originalAciveCallback();
+        resolve();
+      };
+      // In case the webfont.js script fails to load, always reject the
+      // promise after the timeout amount.
+      setTimeout(reject, WebFontConfig.timeout);
+    }
+  })
+    .then(function () {
+      console.log('Fonts', 'active', measureDuration('fonts:active'));
+    })
+    .catch(function () {
+      console.error('Error loading web fonts');
+    });
 }
