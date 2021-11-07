@@ -6,13 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Performance Analytics Demo</title>
 
+    <!-- Start feature detects -->
+    <script>
+      window.__perf = window.performance && performance.mark;
+    </script>
+    <!-- End feature detects -->
+
     <!-- Start fonts -->
     <script>
       window.WebFontConfig = {
         google: { families: ['Roboto:400,700,400italic'] },
         timeout: 10000,
         active: function () {
-          performance.mark('fonts:active');
+          __perf && performance.mark('fonts:active');
         }
       };
     </script>
@@ -42,7 +48,7 @@
     </style>
     <!-- End CSS -->
     <script>
-      performance.mark('css:unblock');
+      __perf && performance.mark('css:unblock');
     </script>
   </head>
   <body>
@@ -50,20 +56,20 @@
       <!-- Start images -->
       <div class="gallery">
         <img
-          onload="performance.mark('img:visible')"
+          onload="__perf && performance.mark('img:visible')"
           src="http://lorempixel.com/380/200/animals/1/"
         />
         <img
-          onload="performance.mark('img:visible')"
+          onload="__perf && performance.mark('img:visible')"
           src="http://lorempixel.com/380/200/animals/2/"
         />
         <img
-          onload="performance.mark('img:visible')"
+          onload="__perf && performance.mark('img:visible')"
           src="http://lorempixel.com/380/200/animals/3/"
         />
       </div>
       <script>
-        performance.mark('img:visible');
+        __perf && performance.mark('img:visible');
       </script>
       <!-- End images -->
 
@@ -75,7 +81,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
-      performance.mark('js:execute');
+      __perf && performance.mark('js:execute');
     </script>
     <!-- Start performance analytics -->
     <script async src="perf-analytics.js"></script>
