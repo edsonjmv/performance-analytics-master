@@ -83,6 +83,35 @@
     <script>
       __perf && performance.mark('js:execute');
     </script>
+    <!-- Start analytics tracking snippet -->
+    <script>
+      window.ga =
+        window.ga ||
+        function () {
+          (ga.q = ga.q || []).push(arguments);
+        };
+      ga.l = +new Date();
+      ga('create', 'UA-XXXXX-Y', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script
+      async
+      src="https://www.google-analytics.com/analytics_debug.js"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-GKHJ8BDT4D');
+    </script>
+    <script
+      async
+      src="https://www.google-analytics.com/analytics_debug.js"
+    ></script>
+    <!-- End analytics tracking snippet -->
     <!-- Start performance analytics -->
     <script async src="perf-analytics.js"></script>
     <!-- End performance analytics -->

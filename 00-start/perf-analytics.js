@@ -10,7 +10,11 @@ window.onload = function () {
  * the CSS stops blocking rendering, then logs that value to the console.
  */
 function measureCssUnblockTime() {
-  console.log('CSS', 'unblock', measureDuration('css:unblock'));
+  var cssUnblockTime = measureDuration('css:unblock');
+  if (cssUnblockTime) {
+    console.log('CSS', 'unblock', cssUnblockTime);
+    ga('send', 'timing', 'CSS', 'unblock', cssUnblockTime);
+  }
 }
 
 /**
@@ -38,7 +42,7 @@ function measureDuration(mark, opt_reference) {
     var measure = performance.getEntriesByName(name)[0];
 
     // Returns the measure duration.
-    return measure.duration;
+    return Math.round(measure.duration);
   }
 }
 
@@ -87,7 +91,11 @@ function measureWebfontPerfAndFailures() {
  * console.
  */
 function measureImagesVisibleTime() {
-  console.log('Images', 'visible', measureDuration('img:visible'));
+  var imgVisibleTime = measureDuration('img:visible');
+  console.log('Images', 'visible', imgVisibleTime);
+  if (imgVisibleTime) {
+    ga('send', 'timing', 'Images', 'visible', imgVisibleTime);
+  }
 }
 
 /**
@@ -96,5 +104,9 @@ function measureImagesVisibleTime() {
  * logs that value to the console.
  */
 function measureJavaScriptExecutionTime() {
-  console.log('JavaScript', 'execute', measureDuration('js:execute'));
+  var jsExecuteTime = measureDuration('js:execute');
+  if (jsExecuteTime) {
+    console.log('JavaScript', 'execute', jsExecuteTime);
+    ga('send', 'timing', 'JavaScript', 'execute', jsExecuteTime);
+  }
 }
