@@ -1,6 +1,7 @@
 window.onload = function () {
   measureCssUnblockTime();
   measureWebfontPerfAndFailures();
+  measureImagesVisibleTime();
 };
 
 /**
@@ -73,4 +74,13 @@ function measureWebfontPerfAndFailures() {
     .catch(function () {
       console.error('Error loading web fonts');
     });
+}
+
+/**
+ * Calculates the time duration between the responseEnd timing event and when
+ * all images are loaded and visible on the page, then logs that value to the
+ * console.
+ */
+function measureImagesVisibleTime() {
+  console.log('Images', 'visible', measureDuration('img:visible'));
 }
